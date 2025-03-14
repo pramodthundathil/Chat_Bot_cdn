@@ -25,223 +25,285 @@
         website: null
     };
     
-    // Add CSS styles
-    const styleEl = document.createElement('style');
-    styleEl.textContent = `
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-        
-        .chatbot-container * {
-            font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            box-sizing: border-box;
-        }
-        
-        .chatbot-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #4A6FFF;
-            color: white;
-            border: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-        
-        .chatbot-button:hover {
-            transform: scale(1.05);
-        }
-        
-        .chatbot-box {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            font-size: 12px;
-        }
-        
-        .chatbot-header {
-            padding: 15px;
-            background: linear-gradient(135deg, #4A6FFF, #3A5EEE);
-            color: white;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .chatbot-header-title {
-            display: flex;
-            align-items: center;
-        }
-        
-        .chatbot-logo {
-            height: 24px;
-            width: 24px;
-            margin-right: 8px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .chatbot-header-dot {
-            height: 10px;
-            width: 10px;
-            background-color: #4CD964;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .chatbot-close {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .chatbot-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            background-color: #F5F7FB;
-        }
-        
-        .chatbot-input-container {
-            display: flex;
-            border-top: 1px solid #EAEAEA;
-            padding: 10px;
-            background-color: white;
-        }
-        
-        .chatbot-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #EAEAEA;
-            border-radius: 20px;
-            outline: none;
-            transition: border 0.3s ease;
-        }
-        
-        .chatbot-input:focus {
-            border-color: #4A6FFF;
-        }
-        
-        .chatbot-send {
-            margin-left: 10px;
-            background-color: #4A6FFF;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .chatbot-send:hover {
-            transform: scale(1.05);
-        }
-        
-        .message {
-            margin-bottom: 15px;
-            max-width: 80%;
-            word-wrap: break-word;
-            padding: 12px 15px;
-            border-radius: 18px;
-            position: relative;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .user-message {
-            background-color: #4A6FFF;
-            color: white;
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .bot-message {
-            background-color: white;
-            color: #333333;
-            margin-right: auto;
-            border-bottom-left-radius: 5px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .error-message {
-            background-color: #FFE0E0;
-            color: #D33A3A;
-            margin-right: auto;
-            border-bottom-left-radius: 5px;
-        }
-        
-        .typing-indicator {
-            display: flex;
-            padding: 12px 15px;
-            background-color: white;
-            border-radius: 18px;
-            border-bottom-left-radius: 5px;
-            margin-bottom: 15px;
-            max-width: 100px;
-            margin-right: auto;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .typing-dot {
-            height: 8px;
-            width: 8px;
-            background-color: #bbb;
-            border-radius: 50%;
-            margin: 0 3px;
-            animation: typing 1.4s infinite;
-        }
-        
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        @keyframes typing {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0); }
-        }
-        
-        .company-info {
-            text-align: center;
-            padding: 10px;
-            font-size: 10px;
-            color: #888;
-            border-top: 1px solid #EAEAEA;
-        }
-        
-        .company-info a {
-            color: #4A6FFF;
-            text-decoration: none;
-        }
-    `;
-    document.head.appendChild(styleEl);
+   // Replace the CSS section in the script with this modernized version
+// Replace the CSS section in the script with this ultra-modern version
+const styleEl = document.createElement('style');
+styleEl.textContent = `
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+    
+    .chatbot-container * {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        box-sizing: border-box;
+        font-size: 11px;
+    }
+    
+    .chatbot-button {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        background-color: #4A6FFF;
+        color: white;
+        border: none;
+        box-shadow: 0 8px 24px rgba(74, 111, 255, 0.25);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1000;
+    }
+    
+    .chatbot-button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(74, 111, 255, 0.3);
+    }
+    
+    .chatbot-box {
+        position: fixed;
+        bottom: 90px;
+        right: 24px;
+        width: 320px;
+        height: 460px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        display: none;
+        flex-direction: column;
+        z-index: 1000;
+        transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    
+    .chatbot-header {
+        padding: 14px 16px;
+        background: linear-gradient(125deg, #4A6FFF, #5B4FFF);
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+    }
+    
+    .chatbot-header-title {
+        display: flex;
+        align-items: center;
+    }
+    
+    .chatbot-logo {
+        height: 22px;
+        width: 22px;
+        margin-right: 8px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+    
+    .chatbot-header-dot {
+        height: 8px;
+        width: 8px;
+        background-color: #4CD964;
+        border-radius: 50%;
+        margin-right: 8px;
+        box-shadow: 0 0 0 2px rgba(76, 217, 100, 0.2);
+    }
+    
+    .chatbot-close {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .chatbot-close:hover {
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .chatbot-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+        background-color: #FAFBFF;
+    }
+    
+    /* Scrollbar styling */
+    .chatbot-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .chatbot-messages::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    .chatbot-messages::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+    
+    .chatbot-input-container {
+        display: flex;
+        border-top: 1px solid #F0F0F5;
+        padding: 12px;
+        background-color: white;
+    }
+    
+    .chatbot-input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1px solid #EAEDF5;
+        border-radius: 12px;
+        outline: none;
+        transition: all 0.2s ease;
+        font-size: 11px;
+        background-color: #F8F9FC;
+    }
+    
+    .chatbot-input:focus {
+        border-color: #4A6FFF;
+        box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
+        background-color: white;
+    }
+    
+    .chatbot-send {
+        margin-left: 8px;
+        background-color: #4A6FFF;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .chatbot-send:hover {
+        transform: scale(1.05);
+        background-color: #3A5EEE;
+    }
+    
+    .message {
+        margin-bottom: 12px;
+        max-width: 80%;
+        word-wrap: break-word;
+        padding: 10px 14px;
+        border-radius: 16px;
+        position: relative;
+        animation: fadeIn 0.2s ease;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-message {
+        background-color: #4A6FFF;
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 4px;
+        font-weight: 400;
+    }
+    
+    .bot-message {
+        background-color: white;
+        color: #333333;
+        margin-right: auto;
+        border-bottom-left-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .error-message {
+        background-color: #FFF0F0;
+        color: #D33A3A;
+        margin-right: auto;
+        border-bottom-left-radius: 4px;
+        border-left: 3px solid #D33A3A;
+    }
+    
+    .typing-indicator {
+        display: flex;
+        padding: 12px 16px;
+        background-color: white;
+        border-radius: 16px;
+        border-bottom-left-radius: 4px;
+        margin-bottom: 12px;
+        max-width: 60px;
+        margin-right: auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .typing-dot {
+        height: 6px;
+        width: 6px;
+        background-color: #bbb;
+        border-radius: 50%;
+        margin: 0 2px;
+        animation: typing 1.4s infinite;
+    }
+    
+    .typing-dot:nth-child(1) { animation-delay: 0s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes typing {
+        0% { transform: translateY(0); opacity: 0.3; }
+        50% { transform: translateY(-4px); opacity: 1; }
+        100% { transform: translateY(0); opacity: 0.3; }
+    }
+    
+    .company-info {
+        text-align: center;
+        padding: 8px;
+        font-size: 9px;
+        color: #9CA3AF;
+        border-top: 1px solid #F0F0F5;
+    }
+    
+    .company-info a {
+        color: #4A6FFF;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    /* Typing effect for bot messages */
+    .typing-text {
+        visibility: hidden;
+    }
+    
+    .typing-animation {
+        border-right: 2px solid #4A6FFF;
+        white-space: nowrap;
+        overflow: hidden;
+        margin: 0;
+        animation: typing-cursor 0.75s step-end infinite;
+    }
+    
+    @keyframes typing-cursor {
+        from, to { border-color: transparent }
+        50% { border-color: #4A6FFF; }
+    }
+`;
+document.head.appendChild(styleEl);
+
+
+
     
     // Fetch company details and initialize chatbot
     async function fetchCompanyDetails() {
@@ -474,6 +536,24 @@
             botMsgElem.innerText = text;
             chatMessages.appendChild(botMsgElem);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+             // Implement typing effect
+    let i = 0;
+    const speed = 30; // typing speed in milliseconds
+    
+    function typeWriter() {
+        if (i < text.length) {
+            textSpan.textContent += text.charAt(i);
+            i++;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            setTimeout(typeWriter, speed);
+        } else {
+            // Remove typing animation class when done
+            textSpan.className = "";
+        }
+    }
+    
+    // Start typing effect
+    setTimeout(typeWriter, 200);
         }
         
         // Helper function to show typing indicator
