@@ -31,7 +31,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
         
         .chatbot-container * {
-            font-family: 'Roboto', sans-serif;
+            font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             box-sizing: border-box;
         }
         
@@ -72,6 +72,7 @@
             flex-direction: column;
             z-index: 1000;
             transition: all 0.3s ease;
+            font-size: 12px;
         }
         
         .chatbot-header {
@@ -230,7 +231,7 @@
         .company-info {
             text-align: center;
             padding: 10px;
-            font-size: 12px;
+            font-size: 10px;
             color: #888;
             border-top: 1px solid #EAEAEA;
         }
@@ -439,7 +440,7 @@
         if (botConfig.companyName && botConfig.website) {
             const companyInfo = document.createElement("div");
             companyInfo.className = "company-info";
-            companyInfo.innerHTML = `Powered by <a href="${botConfig.website}" target="_blank">${botConfig.companyName}</a>`;
+            companyInfo.innerHTML = `Powered by <a href="${botConfig.website}"  target="_blank">${botConfig.companyName}</a>`;
             chatBox.appendChild(companyInfo);
         }
 
